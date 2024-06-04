@@ -60,8 +60,9 @@
 #'   \item{fit_treatment}{Fitted treatment model(s).}
 #'   \item{fit_external}{Fitted external model.}
 #'
-#' @references Dahabreh, I.J., Robertson, S.E., Petito, L.C., Hernán, M.A. and Steingrimsson, J.A.. (2019) \emph{Efficient and robust methods for causally
+#' @references Dahabreh, I.J., Robertson, S.E., Petito, L.C., Hernán, M.A. and Steingrimsson, J.A. (2019) \emph{Efficient and robust methods for causally
 #' interpretable meta‐analysis: Transporting inferences from multiple randomized trials to a target population}, Biometrics.
+#' @references Wang, G., McGrath, S., Lian, Y. and Dahabreh, I. (2024) \emph{CausalMetaR: An R package for performing causally interpretable meta-analyses}, arXiv preprint arXiv:2402.04341.
 #'
 #' @examples
 #' \donttest{
@@ -327,7 +328,7 @@ ATE_external <- function(
         psi <- gamma/(length(ext_xm_id)+length(test_id)) * tmp
 
         tmp1 <- tmp1 - rep(psi, each = length(ext_xm_id))
-        psi_var <- gamma/(length(ext_xm_id)+length(test_id))^2 * colSums(rbind(tmp1, tmp2)^2)
+        psi_var <- gamma^2/(length(ext_xm_id)+length(test_id))^2 * colSums(rbind(tmp1, tmp2)^2)
 
         psi_array_cf[, k, r] <- c(psi, psi[1] - psi[2])
         psi_se_array_cf[, k, r] <- sqrt(c(psi_var, psi_var[1] + psi_var[2]))
@@ -425,7 +426,7 @@ ATE_external <- function(
     psi <- gamma/n * tmp
 
     tmp1 <- tmp1 - rep(psi, each = n0)
-    psi_var <- gamma/n^2 * colSums(rbind(tmp1, tmp2)^2)
+    psi_var <- gamma^2/n^2 * colSums(rbind(tmp1, tmp2)^2)
 
     psi_array <- c(psi, psi[1] - psi[2])
     psi_se_array <- sqrt(c(psi_var, psi_var[1] + psi_var[2]))

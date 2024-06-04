@@ -53,7 +53,8 @@
 #'   \item{fit_source}{Fitted source model.}
 #'   \item{fit_treatment}{Fitted treatment model(s).}
 #'
-#' @references Robertson, S.E., Steingrimsson, J.A., Joyce, N.R., Stuart, E.A., & Dahabreh, I.J. (2021). \emph{Center-specific causal inference with multicenter trials: Reinterpreting trial evidence in the context of each participating center}. arXiv preprint arXiv:2104.05905.
+#' @references Robertson, S.E., Steingrimsson, J.A., Joyce, N.R., Stuart, E.A. and Dahabreh, I.J. (2021). \emph{Center-specific causal inference with multicenter trials: Reinterpreting trial evidence in the context of each participating center}. arXiv preprint arXiv:2104.05905.
+#' @references Wang, G., McGrath, S., Lian, Y. and Dahabreh, I. (2024) \emph{CausalMetaR: An R package for performing causally interpretable meta-analyses}, arXiv preprint arXiv:2402.04341.
 #'
 #' @examples
 #' \donttest{
@@ -268,7 +269,7 @@ ATE_internal <- function(
           tmp1[I_xs, 1] <- pred_Y1[I_xs] - phi[s, 1]
           tmp1[I_xs, 2] <- pred_Y0[I_xs] - phi[s, 2]
 
-          phi_var[s, ] <- kappa/nrow(X_test)^2 * colSums((tmp1 + tmp2)^2)
+          phi_var[s, ] <- kappa^2/nrow(X_test)^2 * colSums((tmp1 + tmp2)^2)
         }
 
         phi_array_cf[, , k, r] <- cbind(phi, phi[, 1] - phi[, 2])
@@ -370,7 +371,7 @@ ATE_internal <- function(
       tmp1[I_xs, 1] <- pred_Y1[I_xs] - phi[s, 1]
       tmp1[I_xs, 2] <- pred_Y0[I_xs] - phi[s, 2]
 
-      phi_var[s, ] <- kappa/n^2 * colSums((tmp1 + tmp2)^2)
+      phi_var[s, ] <- kappa^2/n^2 * colSums((tmp1 + tmp2)^2)
     }
 
     phi_array[, ] <- cbind(phi, phi[, 1] - phi[, 2])
